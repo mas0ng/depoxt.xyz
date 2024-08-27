@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - www.depoxt.xyz</title>
+    <link rel="stylesheet" href="https://www.depoxt.xyz/resources/style.css">
+    <style>
+        /* Additional styling based on the provided CSS */
+        .input-container {
+            margin-bottom: 20px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .input-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #f1f1f1;
+        }
+
+        .input-container input, .input-container textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #3b3439;
+            background-color: #252537;
+            color: #f1f1f1;
+            outline: none;
+        }
+
+        .input-container textarea {
+            resize: vertical;
+        }
+
+        .input-container button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #3b3439;
+            background-color: #3b3439;
+            color: #f1f1f1;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .input-container button:hover {
+            background-color: #4b4549;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #171216;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid #3b3439;
+        }
+
+        .modal-content h2 {
+            color: #f1f1f1;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .modal-content p {
+            color: #808080;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .modal-content button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #3b3439;
+            background-color: #3b3439;
+            color: #f1f1f1;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .modal-content button:hover {
+            background-color: #4b4549;
+        }
+
+        .cancel-button {
+            background-color: #252537;
+        }
+
+        .cancel-button:hover {
+            background-color: #171216;
+        }
+
+        /* Success and Error Popups */
+        .success-popup, .error-popup {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #171216;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid #3b3439;
+        }
+
+        .success-popup h2, .error-popup h2 {
+            color: #f1f1f1;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .success-popup p, .error-popup p {
+            color: #808080;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .success-popup button, .error-popup button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #3b3439;
+            background-color: #3b3439;
+            color: #f1f1f1;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .success-popup button:hover, .error-popup button:hover {
+            background-color: #4b4549;
+        }
+    </style>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+    <div class="header">
+        <h1>Contact Us</h1>
+        <p>If you have any issues or concerns, please fill out the form below, and we will get back to you as soon as possible.</p>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <form id="contactForm">
+                <h2>Submit Your Issue</h2>
+
+                <div class="input-container">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="input-container">
+                    <label for="email">Your Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="input-container">
+                    <label for="country">Your Country:</label>
+                    <input type="text" id="country" name="country" required>
+                </div>
+
+                <div class="input-container">
+                    <label for="problem">Describe Your Problem:</label>
+                    <textarea id="problem" name="problem" rows="4" required></textarea>
+                </div>
+
+                <div class="g-recaptcha" data-sitekey="6LeakDAqAAAAANJXRTHVDzcjnQAZyoJONe8p6ojN"></div>
+                <br>
+
+                <div class="input-container">
+                    <button type="button" onclick="openModal()">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="submissionModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirm Submission</h2>
+            <p>Your message will be sent to Discord. Please note that this may not be completely secure. All data send will fall under discords tos and privacy ploicy(s). Do you wish to proceed?</p>
+            <button id="confirmSubmit">Submit</button>
+            <button class="cancel-button" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Success Popup -->
+    <div id="successPopup" class="success-popup">
+        <h2>Success</h2>
+        <p>Your message has been sent successfully!</p>
+        <button onclick="closeSuccessPopup()">Close</button>
+    </div>
+
+    <!-- Error Popup -->
+    <div id="errorPopup" class="error-popup">
+        <h2>Error</h2>
+        <p>There was an error sending your message. Please try again later.</p>
+        <button onclick="closeErrorPopup()">Close</button>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('submissionModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('submissionModal').style.display = 'none';
+        }
+
+        function openSuccessPopup() {
+            document.getElementById('successPopup').style.display = 'block';
+        }
+
+        function closeSuccessPopup() {
+            document.getElementById('successPopup').style.display = 'none';
+        }
+
+        function openErrorPopup() {
+            document.getElementById('errorPopup').style.display = 'block';
+        }
+
+        function closeErrorPopup() {
+            document.getElementById('errorPopup').style.display = 'none';
+        }
+
+        document.getElementById('confirmSubmit').addEventListener('click', function() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const country = document.getElementById('country').value;
+            const problem = document.getElementById('problem').value;
+
+            const recaptchaResponse = grecaptcha.getResponse();
+
+            if (recaptchaResponse === "") {
+                openErrorPopup();
+                return;
+            }
+
+            const webhookUrl = 'DISCORD_PRIVATE_WEBHOOK';
+
+            const data = {
+                embeds: [{
+                    title: "New Contact Form Submission",
+                    color: 3447003, // Blue color
+                    fields: [
+                        {
+                            name: "Name",
+                            value: name,
+                            inline: true
+                        },
+                        {
+                            name: "Email",
+                            value: email,
+                            inline: true
+                        },
+                        {
+                            name: "Country",
+                            value: country,
+                            inline: false
+                        },
+                        {
+                            name: "Problem",
+                            value: problem,
+                            inline: false
+                        }
+                    ],
+                    timestamp: new Date()
+                }]
+            };
+
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                closeModal();
+                if(response.ok) {
+                    openSuccessPopup();
+                    document.getElementById('contactForm').reset();
+                    grecaptcha.reset(); // Reset CAPTCHA after successful submission
+                } else {
+                    openErrorPopup();
+                }
+            })
+            .catch(error => {
+                closeModal();
+                openErrorPopup();
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
