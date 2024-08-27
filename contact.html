@@ -261,7 +261,7 @@
                 return;
             }
 
-            const webhookUrl = 'DISCORD_PRIVATE_WEBHOOK';
+            const webhookUrl = process.env.DISCORD_PRIVATE_WEBHOOK;
 
             const data = {
                 embeds: [{
