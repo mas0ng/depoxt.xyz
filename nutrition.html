@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Nutritional Info</title>
+    <!-- Include Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Include html5-qrcode library -->
+    <script src="https://unpkg.com/html5-qrcode@latest"></script>
+
+    <style>
+        body {
+            padding-top: 20px;
+            background-color: #171216;
+            color: #f1f1f1;
+        }
+        #reader {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        #result, #nutritional-info {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #nutritional-info {
+            padding: 20px;
+            background-color: #261f25;
+            color: #fff;
+            border-radius: 8px;
+        }
+        #nutritional-info h2 {
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        #nutritional-info table {
+            margin: auto;
+            width: 100%;
+            max-width: 800px;
+            color: #fff;
+        }
+        #resume-button {
+            display: none;
+            margin-top: 20px;
+        }
+        .scanner-container {
+            background-color: #261f25;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .btn-primary {
+			border-radius: 5px;
+			border: 1px solid #3b3439; /* Adds a 3px solid white border */
+			background-color: transparent;
+			color: #f1f1f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+		.btn-primary:hover {
+			background-color: #3b3439;
+			border: 1px solid #3b3439; /* Adds a 3px solid white border */
+        }
+        .thead-dark th {
+            background-color: #343a40;
+            color: #fff;
+        }
+        h1 {
+            color: #fff;
+            margin-bottom: 30px;
+        }
+        .container {
+            max-width: 900px;
+        }
+        /* Disable hover effect for the table rows */
+        table tr {
+            transition: none !important;
+        }
+        table tr:hover {
+            background-color: inherit !important;
+        }
+        /* Loading message styling */
+        .loading-message {
+            font-style: italic;
+            color: #999;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center">Scan An Item Barcode!</h1>
+    <div class="scanner-container">
+        <div id="reader"></div>
+    </div>
+    <div id="result"></div>
+    <div id="nutritional-info"></div>
+    <button id="resume-button" class="btn btn-primary">Scan Another Product</button>
+</div>
+
+<!-- Include jQuery (optional, for Bootstrap's JavaScript plugins if needed) -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script>
+    let isScanning = true;
+    let html5QrCode;
+
+    function onScanSuccess(decodedText, decodedResult) {
+        if (!isScanning) return;
+        isScanning = false;
+        // Stop scanning
+        html5QrCode.stop().then(() => {
+            document.getElementById("result").innerHTML = `<h4>Scanned Code: ${decodedText}</h4>`;
+            fetchProductInfo(decodedText);
+            document.getElementById("resume-button").style.display = "inline-block";
+        }).catch(err => {
+            console.error('Failed to stop scanning', err);
+        });
+    }
+
+    function onScanFailure(error) {
+        // Handle scan failure (optional)
+    }
+
+    // Specify the barcode formats to scan
+    const config = {
+        fps: 10,
+        qrbox: 250,
+        formatsToSupport: [
+            Html5QrcodeSupportedFormats.EAN_13,
+            Html5QrcodeSupportedFormats.UPC_A,
+            Html5QrcodeSupportedFormats.UPC_E,
+            Html5QrcodeSupportedFormats.CODE_128,
+            Html5QrcodeSupportedFormats.CODE_39,
+            Html5QrcodeSupportedFormats.CODE_93,
+            Html5QrcodeSupportedFormats.EAN_8
+        ]
+    };
+
+    // Initialize the scanner
+    html5QrCode = new Html5Qrcode("reader");
+
+    function startScanning() {
+        Html5Qrcode.getCameras().then(cameras => {
+            if (cameras && cameras.length) {
+                var cameraId = cameras[0].id;
+                html5QrCode.start(
+                    cameraId,
+                    config,
+                    onScanSuccess,
+                    onScanFailure
+                ).catch(err => {
+                    console.error('Error starting the scanner', err);
+                    document.getElementById("result").innerHTML = "<h4>Error starting the scanner.</h4>";
+                });
+            } else {
+                console.error('No cameras found.');
+                document.getElementById("result").innerHTML = "<h4>No cameras found.</h4>";
+            }
+        }).catch(err => {
+            console.error('Error getting cameras', err);
+            document.getElementById("result").innerHTML = "<h4>Error accessing cameras.</h4>";
+        });
+    }
+
+    startScanning();
+
+    function fetchProductInfo(barcode) {
+        // Show a loading message while fetching
+        document.getElementById("nutritional-info").innerHTML = "<p class='loading-message'>Fetching product information...</p>";
+        
+        fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 1) {
+                    displayNutritionalInfo(data.product);
+                } else {
+                    document.getElementById("nutritional-info").innerHTML = "<h4>Product not found.</h4>";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById("nutritional-info").innerHTML = "<h4>Error fetching product data.</h4>";
+            });
+    }
+
+    function displayNutritionalInfo(product) {
+        const nutriments = product.nutriments;
+        let productName = product.product_name || 'Unknown Product';
+        let htmlContent = `<h2>${productName}</h2>`;
+        htmlContent += `<table class="table">`;
+        htmlContent += `<thead class="thead-dark"><tr><th>Nutrient</th><th>Per 100g</th></tr></thead><tbody>`;
+
+        const nutrientsToDisplay = [
+            { key: 'energy-kcal_100g', label: 'Energy (kcal)' },
+            { key: 'energy_100g', label: 'Energy (kJ)' },
+            { key: 'fat_100g', label: 'Fat (g)' },
+            { key: 'saturated-fat_100g', label: 'Saturated Fat (g)' },
+            { key: 'carbohydrates_100g', label: 'Carbohydrates (g)' },
+            { key: 'sugars_100g', label: 'Sugars (g)' },
+            { key: 'fiber_100g', label: 'Fiber (g)' },
+            { key: 'proteins_100g', label: 'Proteins (g)' },
+            { key: 'salt_100g', label: 'Salt (g)' },
+            { key: 'sodium_100g', label: 'Sodium (mg)' },
+        ];
+
+        nutrientsToDisplay.forEach(nutrient => {
+            if (nutriments.hasOwnProperty(nutrient.key)) {
+                htmlContent += `<tr><td>${nutrient.label}</td><td>${nutriments[nutrient.key]}</td></tr>`;
+            }
+        });
+
+        htmlContent += `</tbody></table>`;
+        document.getElementById("nutritional-info").innerHTML = htmlContent;
+    }
+
+    document.getElementById("resume-button").addEventListener("click", function() {
+        isScanning = true;
+        document.getElementById("nutritional-info").innerHTML = "";
+        document.getElementById("result").innerHTML = "";
+        this.style.display = "none";
+        startScanning();
+    });
+</script>
+
+</body>
+</html>
