@@ -154,7 +154,9 @@ a {
 
 .pricing {
     display: flex;
-    justify-content: space-around;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 20px;
     padding: 50px 0;
     background-color: #1c1c1c;
 }
