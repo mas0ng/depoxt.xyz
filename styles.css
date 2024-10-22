@@ -21,7 +21,7 @@ a {
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-colour: #;
+    background-colour: #1c1c1c;
     color: white;
 }
 
@@ -58,9 +58,7 @@ a {
 }
 
 .features {
-	background: linear-gradient(to right, #f32170, #ff6b08,#cf23cf, #eedd44);
-	-webkit-text-fill-color: transparent; 
-	-webkit-background-clip: text; 
+	
     display: flex;
     justify-content: space-around;
     padding: 50px 0;
