@@ -16,13 +16,19 @@ a {
 }
 
 .hero {
-    height: 100vh;
+    height: 96vh;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: #1c1c1c;
-    color: white;
+    background: linear-gradient(to right, #f32170, #ff6b08,#cf23cf, #eedd44);
+	color: white;
+	width: 98%;
+	margin-top: 2vh;
+	margin-bottom: 2vh;
+	margin-right: 1%;
+	margin-left: 1%;
+	border-radius: 15px;
 }
 
 .hero h1 {
