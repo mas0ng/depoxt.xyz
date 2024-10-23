@@ -322,6 +322,19 @@ footer p {
 
 .get-started {
 	text-align: center;
+	height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(to right, #f32170, #ff6b08,#cf23cf, #eedd44);
+	color: white;
+	width: 98%;
+	margin-top: 2vh;
+	margin-bottom: 2vh;
+	margin-right: 1%;
+	margin-left: 1%;
+	border-radius: 15px;
 }
 
 .get-started-content h1 {
@@ -415,6 +428,7 @@ footer p {
 
 
 .bottom-nav {
+	margin-top: 20px;
 	position: fixed;
 	bottom: 20px; /* Adjust this value to move the bar up */
 	left: 50%;
