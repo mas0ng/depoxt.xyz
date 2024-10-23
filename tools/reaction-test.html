@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://www.depoxt.xyz/styles.css">
+	<link rel="icon" type="image/png" href="https://www.depoxt.xyz/depoxt-icon.png">	
+    <title>Reaction Time</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            text-align: center;
+            transition: background-color 0.2s;
+            cursor: pointer;
+			font-family: 'Poppins', sans-serif;
+			background-color: #121212;
+			color: #e0e0e0;
+        }
+		
+		
+
+        #timer {
+            font-size: 36px;
+            font-weight: bold;
+            display: none;
+        }
+
+        #tryAgainMessage {
+            display: none;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <div id="message">Click to start the test!</div>
+    <div id="timer"></div>
+
+
+    <script>
+        let state = "waiting"; // Initial state
+        let startTime, endTime, timeoutId;
+        const minDelay = 2000; // 2.0 seconds
+        const maxDelay = 4700; // 4.7 seconds
+
+        const messageElement = document.getElementById('message');
+        const timerElement = document.getElementById('timer');
+        
+
+        function randomDelay(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        // Reset test state
+        function resetTest() {
+            clearTimeout(timeoutId);
+            state = "waiting";
+            document.body.style.backgroundColor = "black";
+            messageElement.textContent = "Click to start the test!";
+            timerElement.style.display = "none";
+            timerElement.textContent = "";
+            
+        }
+
+        // Start the test
+        function startTest() {
+            state = "red";
+            document.body.style.backgroundColor = "red";
+            messageElement.textContent = "Wait for green...";
+            
+
+            // Wait for a random delay, then turn green and start the timer
+            const delay = randomDelay(minDelay, maxDelay);
+            timeoutId = setTimeout(() => {
+                document.body.style.backgroundColor = "green";
+                messageElement.textContent = "Click!";
+                timerElement.style.display = "block";
+                startTime = new Date().getTime();
+                state = "green";
+            }, delay);
+        }
+
+        // Stop the test and calculate the reaction time
+        function stopTest() {
+            if (state === "green") {
+                endTime = new Date().getTime();
+                const reactionTime = (endTime - startTime) / 1000;
+                messageElement.textContent = `Your reaction time: ${reactionTime.toFixed(3)} second. Click anywhere to try again`;
+                document.body.style.backgroundColor = "black";
+                timerElement.style.display = "none";
+                
+                state = "done";
+            } else if (state === "red") {
+                messageElement.textContent = "Too soon! Wait for green.";
+                document.body.style.backgroundColor = "black";
+                state = "waiting";
+            }
+        }
+
+        // Click anywhere to start or stop the test or reset it
+        document.body.addEventListener('click', () => {
+            if (state === "waiting") {
+                startTest();
+            } else if (state === "green" || state === "red") {
+                stopTest();
+            } else if (state === "done") {
+                resetTest(); // Reset when user clicks after the test is complete
+            }
+        });
+    </script>
+	
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<div class="bottom-nav">
+        <a href="/"><i class="material-icons">home</i></a>
+		<a href="/tools"><i class="material-icons">build</i></a>
+        <a href="/search"><i class="material-icons">search</i></a>
+        <a href="/settings"><i class="material-icons">settings</i></a>
+    </div>
+
+</body>
+</html>
