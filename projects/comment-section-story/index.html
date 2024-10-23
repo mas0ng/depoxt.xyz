@@ -150,6 +150,12 @@
   </div>
 
   <script>
+    window.onload = function() {
+            // JavaScript to redirect if the screen width is smaller than 600px
+            if (window.innerWidth <= 600) {
+                window.location.href = "/device-not-supported?prev=https://www.depoxt.xyz/projects";
+            }
+    };
     // Separate lists for random usernames and avatar images
     const predefinedUsernames = ["funny guy", "cool girl", "catlover123", "john doe", "travel buddy",
              "midnight owl", "sunshine soul", "rock lover", "dream chaser", "bookworm buddy",
