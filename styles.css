@@ -156,7 +156,7 @@ a {
 
 .pricing {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     padding: 50px 0;
 	background: linear-gradient(to right, #f32170, #ff6b08,#cf23cf, #eedd44);
 	color: white;
