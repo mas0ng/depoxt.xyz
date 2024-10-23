@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Not Supported</title>
+    <link rel="stylesheet" href="styles.css">
+	<link rel="icon" type="image/png" href="/depoxt.icon.png">
+</head>
+<body>
+
+    <!-- 404 Error Section -->
+    <section class="error-page">
+        <div class="error-content">
+            <h1>403</h1>
+            <p>The size of your device's screen is not supported for this function.</p>
+			<button class="cta" id="goBackButton">Go Back</button>
+            
+        </div>
+    </section>
+
+    <!-- Footer -->
+    
+	
+	<script>
+    // Get URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const prevPage = urlParams.get('prev');
+
+    // Select the Go Back button
+    const goBackButton = document.getElementById('goBackButton');
+
+    // If a previous page is specified, set the button to go back to that page
+    if (prevPage) {
+      goBackButton.onclick = function() {
+        window.location.href = prevPage;
+      };
+    } else {
+      // If no previous page is specified, default to history.back()
+      goBackButton.onclick = function() {
+        window.history.back();
+      };
+    }
+  </script>
+	
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<div class="bottom-nav">
+        <a href="/"><i class="material-icons">home</i></a>
+		<a href="/tools"><i class="material-icons">build</i></a>
+        <a href="/search"><i class="material-icons">search</i></a>
+        <a href="/settings"><i class="material-icons">settings</i></a>
+    </div>
+
+</body>
+</html>
