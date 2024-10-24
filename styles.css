@@ -21,7 +21,7 @@ a {
     justify-content: center;
     align-items: center;
     text-align: center;
-    linear-gradient(to right, #03befc, #0390fc,#0356fc);
+    backgroud: linear-gradient(to right, #03befc, #0390fc,#0356fc);
 	color: white;
 	width: 98%;
 	margin-top: 2vh;
@@ -37,7 +37,7 @@ a {
 }
 
 .hero depoxt-gradient {
-	linear-gradient(to right, #03befc, #0390fc,#0356fc);
+	background: linear-gradient(to right, #03befc, #0390fc,#0356fc);
 	-webkit-text-fill-color: transparent; 
 	-webkit-background-clip: text; 
 }
@@ -99,7 +99,7 @@ a {
 }
 
 .more-features gradi {
-	linear-gradient(to right, #03befc, #0390fc,#0356fc);
+	background: linear-gradient(to right, #03befc, #0390fc,#0356fc);
 	-webkit-text-fill-color: transparent; 
 	-webkit-background-clip: text; 
 }
@@ -159,7 +159,7 @@ a {
     flex-wrap: wrap;
     justify-content: center;
     padding: 50px 0;
-	linear-gradient(to right, #03befc, #0390fc,#0356fc);
+	background: linear-gradient(to right, #03befc, #0390fc,#0356fc);
 	color: white;
 	border-radius: 15px;
 	margin-right: 1%;
@@ -324,7 +324,7 @@ footer p {
     justify-content: center;
     align-items: center;
     text-align: center;
-    linear-gradient(to right, #03befc, #0390fc,#0356fc);
+    background: linear-gradient(to right, #03befc, #0390fc,#0356fc);
 	color: white;
 	width: 98%;
 	margin-top: 2vh;
@@ -341,7 +341,7 @@ footer p {
 }
 
 .get-started-content depoxt-gradient {
-	linear-gradient(to right, #03befc, #0390fc,#0356fc);
+	background: linear-gradient(to right, #03befc, #0390fc,#0356fc);
 	-webkit-text-fill-color: transparent; 
 	-webkit-background-clip: text; 
 }
