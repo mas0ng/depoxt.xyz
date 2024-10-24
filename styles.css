@@ -430,8 +430,6 @@ footer p {
 	bottom: 20px; /* Adjust this value to move the bar up */
 	left: 50%;
 	transform: translateX(-50%);
-	background: rgba(255, 255, 255, 0.8);
-	backdrop-filter: blur(1px);
 	padding: 10px 20px;
 	border-radius: 10px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -440,6 +438,9 @@ footer p {
 	width-max: 90%;
 	max-width: 600px;
 	gap:20px;
+	background: rgba(3, 190, 252, 0.6); /* Set the background to semi-transparent */
+	background: linear-gradient(to right, rgba(3, 190, 252, 0.6), rgba(3, 144, 252, 0.6), rgba(3, 86, 252, 0.6)); /* Semi-transparent gradient */
+	backdrop-filter: blur(1px); /* Increase blur effect */
 }
 .bottom-nav a {
 	background: #fff;
