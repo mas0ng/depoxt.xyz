@@ -21,7 +21,7 @@ a {
     justify-content: center;
     align-items: center;
     text-align: center;
-    backgroud: linear-gradient(to right, #03befc, #0390fc,#0356fc);
+    background: linear-gradient(to right, #03befc, #0390fc,#0356fc);
 	color: white;
 	width: 98%;
 	margin-top: 2vh;
